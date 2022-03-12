@@ -3,15 +3,21 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavComponent } from './components/nav/nav.component'
+import { NavComponent } from './components/nav/nav.component';
+import { NoticiaComponent } from './components/noticia/noticia.component';
+import { NoticiasComponent } from './components/noticias/noticias.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent
+    NavComponent,
+    NoticiaComponent,
+    NoticiasComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
