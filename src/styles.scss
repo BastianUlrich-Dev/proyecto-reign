@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap');
+:root{
+  --color-background: #fcfcfc;
+  --color-border: #d6d6d6;
+  --color-font-primary: #606060;
+
+  // nav
+  --font-baskerville: 'Libre Baskerville', serif;
+  --font-size-baskerville: 28px;
+  --font-height--baskerville: 28px;
+  --color-font: #3b3b3b;
+
+  // noticias
+  --font-roboto: 'Roboto', sans-serif;
+  --color-azure: #1797ff;
+}
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
