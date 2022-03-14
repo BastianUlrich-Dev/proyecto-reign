@@ -4,47 +4,31 @@
     <button class="section__button">My faves</button>
   </section>
 
-	<div class="comboBox">
-		<form action="">
-			<div class="comboBox__selectbox">
-				<div class="comboBox__select" (click)="activarCbo()" [class.active]="opcionSeleccionada" id="select">
-					<div class="comboBox__contenido_select">
-						<p class="comboBox__titulo">Select your news</p>
-					</div>
+  <div class="comboBox">
+    <form action="">
+      <div class="comboBox__selectbox">
+        <div class="comboBox__select" (click)="activarCbo()" [class.active]="opcionSeleccionada">
+          <div class="comboBox__contenido_select">
+            <p #selectNews class="comboBox__titulo">Select your news</p>
+          </div>
           <fa-icon [icon]="chevronDown"></fa-icon>
-				</div>
-				<div class="opciones" [class.active]="cboActivo">
-					<a href="##" (click)="activarCbo()" class="opciones__seleccion">
-						<div class="opciones__contenedor">
-							<img class="opciones__logo opciones__logo--angular" src="./../../../assets/images/image-138.png" alt="">
-							<div class="opciones__textos">
-								<p>Angular</p>
-							</div>
-						</div>
-					</a>
-					<a href="#" class="opciones__seleccion">
-						<div (click)="activarCbo()" class="opciones__contenedor">
-							<img class="opciones__logo" src="./../../../assets/images/image-140.png" alt="">
-							<div class="opciones__textos">
-                <p>React</p>
-							</div>
-						</div>
-					</a>
-					<a href="###" class="opciones__seleccion">
-						<div (click)="activarCbo()" class="opciones__contenedor">
-							<img class="opciones__logo" src="./../../../assets/images/image-141.png" alt="">
-							<div class="opciones__textos">
-                <p>Vuejs</p>
-							</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<input type="hidden" name="pais" id="inputSelect" value="">
-		</form>
-	</div>
+        </div>
+        <div class="opciones" [class.active]="cboActivo">
+          <a *ngFor="let item of options" href="#" class="opciones__seleccion">
+            <div (click)="activarCbo()" (click)="selectOption(item.text)" class="opciones__contenedor">
+              <img class="opciones__logo" [src]="item.logo" alt="">
+              <div class="opciones__textos">
+                <p>{{item.text}}</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <input type="hidden" name="framework" id="inputSelect" value="">
+    </form>
+  </div>
 
   <section class="main__cards">
-
+    <app-noticia [noticia]="nota" *ngFor="let nota of news"></app-noticia>
   </section>
 </main>
