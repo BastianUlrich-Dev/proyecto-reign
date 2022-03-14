@@ -16,7 +16,10 @@
   border-radius: 2px;
   font-weight: 500;
 }
-
+.main__section .section__button:hover{
+  color: var(--color-azure);
+  border: 1px solid var(--color-azure);
+}
 
 // comboBox
 .comboBox{
@@ -51,7 +54,6 @@
 	box-shadow: 0px 5px 10px rgba(0, 0, 0, .16);
 }
 
-
 .comboBox__contenido_select{
   display: flex;
   flex-direction: row;
@@ -65,6 +67,8 @@
   background-color: #fff;
   transition: .2s ease all;
   display: none;
+  position: relative;
+  z-index: 1;
   &.active{
     display: block;
   }
@@ -73,7 +77,6 @@
 .opciones .opciones__seleccion{
   text-decoration: none;
   color: inherit;
-
 }
 
 .opciones__contenedor{
@@ -102,9 +105,9 @@
 }
 
 // main card
-// .main__card{
-
-// }
+.main__cards{
+  margin: 38px 0px 30px 150px;
+}
 
 
 
