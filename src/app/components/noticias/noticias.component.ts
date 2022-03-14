@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { faChevronDown, faCoffee, faDog } from '@fortawesome/free-solid-svg-icons';
+import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { faChevronDown, faDog } from '@fortawesome/free-solid-svg-icons';
+import { BehaviorSubject, switchMap } from 'rxjs';
+import { Post } from 'src/app/models/news.model';
+import { NewsService } from 'src/app/services/news.service';
 
 @Component({
   selector: 'app-noticias',
@@ -8,27 +11,63 @@ import { faChevronDown, faCoffee, faDog } from '@fortawesome/free-solid-svg-icon
 })
 export class NoticiasComponent implements OnInit {
 
+  @ViewChild('parrafo') title: ElementRef | undefined;
   faDog = faDog;
   chevronDown = faChevronDown;
   opcionSeleccionada = false;
   cboActivo = false;
 
-  constructor() { }
+  options = [
+    {
+      logo: "./../../../assets/images/image-138.png",
+      text: "Angular"
+    },
+    {
+      logo: "./../../../assets/images/image-140.png",
+      text: "React"
+    },
+    {
+      logo: "./../../../assets/images/image-141.png",
+      text: "Vuejs"
+    },
+  ];
 
-  toggleButton(){
-    this.opcionSeleccionada = !this.opcionSeleccionada;
+  params = new BehaviorSubject({ query: "", page: "0" });
+
+  news:Post[] = [];
+
+  constructor(
+    private newsService: NewsService
+  ) { }
+
+  ngOnInit(): void {
+    this.params
+    .pipe(switchMap(params => this.newsService.getPosts(params)))
+    .subscribe(news => {
+      this.news = news;
+    });
+  }
+
+  change():void{
+    const asTitle = this.title?.nativeElement;
+    console.log(asTitle);
   }
 
   toggleCboActivo(){
     this.cboActivo = !this.cboActivo;
   }
 
-  ngOnInit(): void {
+  toggleButton(){
+    this.opcionSeleccionada = !this.opcionSeleccionada;
   }
 
   activarCbo(){
     this.toggleButton();
     this.toggleCboActivo();
+  }
+
+  selectOption(option: string) {
+    this.params.next({ query: option, page: "0" });
   }
 
 }
