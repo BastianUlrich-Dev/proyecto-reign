@@ -1,51 +1,38 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpStatusCode} from '@angular/common/http';
-import { News , ApiResponse} from '../models/news.model';
-import { Observable, map} from 'rxjs';
+import {
+  HttpClient,
+} from '@angular/common/http';
+import { Post, Params } from '../models/news.model';
+import { map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NewsService {
 
-  private apiUrl = 'http://hn.algolia.com/api/v1/items/1';
-  // private urlAngular = 'https://hn.algolia.com/api/v1/search_by_date?query=angular&page=1';
-  // private urlReact = 'https://hn.algolia.com/api/v1/search_by_date?query=reactjs&page=0';
-  // private urlVuejs = 'https://hn.algolia.com/api/v1/search_by_date?query=vuejs&page=0';
+  private Url = 'https://hn.algolia.com/api/v1/search_by_date';
 
-  constructor(
-    private httpClient: HttpClient
-  )
-  {
+  constructor(private httpClient: HttpClient) {}
 
-  }
-
-
-  getAllNews(): Observable<News[]>{
-    return this.httpClient.get<ApiResponse>(this.apiUrl)
-    .pipe(
-      map((result) => {
-        const { id, create_at_i, type, text, points, parent_id, story_id, children, ...items } = result;
-        return Object.values(items);
-      })
+  getPosts(params: Record<string, string>): Observable<Post[]> {
+    return (
+      this.httpClient
+        .get<{ hits: Post[] }>(this.getSearchUrlFor(params))
+        .pipe(
+          map((res) =>
+            res.hits.filter(
+              ({ author, story_title, story_url, created_at }) =>
+                author && story_title && story_url && created_at
+            )
+          )
+        )
     );
   }
 
-  // getAllNews(): Observable<News[]>{
-  //   return this.httpClient.get<ApiResponse[]>(this.apiUrl)
-  //   .pipe(
-  //     map(result => result.map(item => {
-  //       return{
-  //         ...item,
-  //       }
-  //     }))
-  //   );
-  // }
-
-
-  // getAllNews(){
-  //   return this.httpClient.get<News[]>(this.apiUrl);
-  //   // return Object.values(items);
-  // }
+  private getSearchUrlFor(params: Record<string, string>): string {
+    const query = new URLSearchParams(params);
+    return `${this.Url}?${query}`;
+  }
 
 }
