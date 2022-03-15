@@ -31,4 +31,16 @@
   <section class="main__cards">
     <app-noticia [noticia]="nota" *ngFor="let nota of news"></app-noticia>
   </section>
+
+<div class="button__readMore">
+  <button class="paginacion__opcion--readMore" (click)="nextPage()">Read more</button>
+</div>
+
+  <section class="paginacion">
+    <a class="paginacion__opcion" href=""><fa-icon [icon]="chevronLeft"></fa-icon></a>
+    <a *ngFor="let pagina of paginas" class="paginacion__opcion" (click)="goToPage(pagina.numero)" href="#">{{pagina.numero}}</a>
+    <a class="paginacion__opcion" href="#"><fa-icon [icon]="chevronRight"></fa-icon></a>
+
+  </section>
+
 </main>

@@ -1,3 +1,8 @@
+.main{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 // botones all y my Faves
 .main__section{
   display: flex;
@@ -15,6 +20,7 @@
   font-size: 16px;
   border-radius: 2px;
   font-weight: 500;
+  cursor: pointer;
 }
 .main__section .section__button:hover{
   color: var(--color-azure);
@@ -25,7 +31,7 @@
 .comboBox{
   width: 240px;
   height: 32px;
-  margin: 63px 114px 1px 150px;
+  margin: 40px 0px 1px 0px;
   border-radius: 4px;
   border: solid 1px #2e2e2e;
   font-family: var(--font-roboto);
@@ -106,8 +112,78 @@
 
 // main card
 .main__cards{
-  margin: 38px 0px 30px 150px;
+  width: 100%;
+  margin: 20px 0px 30px 0px;
 }
 
+.button__readMore{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.button_readMore .paginacion__opcion--readMore{
+  text-decoration: none;
+  width: 150px;
+  height: 32px;
+  border-radius: 4px;
+  background-color: #fff;
+  border: solid 1px #d9d9d9;
+  color: #767676;
+  font-family: var(--font-roboto);
+  font-weight: 300;
+  margin: 0 4px;
+  padding: 5px;
+}
+
+//paginacion
+.paginacion{
+  width: 100%;
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 98px;
+}
+.paginacion__opcion{
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background-color: #fff;
+  border: solid 1px #d9d9d9;
+  color: #767676;
+  font-family: var(--font-roboto);
+  font-weight: 300;
+  margin: 0 4px;
+  padding: 5px;
+}
+.paginacion__opcion:hover{
+  background-color: #1890ff;
+  color: #fff;
+}
+
+
+@media (min-width: 720px){
+  .main{
+    display: block;
+    align-items: center;
+  }
+
+  .comboBox{
+    margin: 63px 114px 1px 150px;
+  }
+
+  .main__cards{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 150px 10px 150px;
+  }
+}
 
 
