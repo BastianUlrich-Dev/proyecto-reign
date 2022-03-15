@@ -2,6 +2,33 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.4.
 
+## Description
+What is achieved in the project is to see a list of hacker-news, filtering them according to the framework (angular,react,vue) and mark them as I like and then in the button "My faves" display all the cards that were selected. in addition to having a "read more" button to load more news.
+
+## Visuals 
+![](src/assets/images/captura01.png)
+![](src/assets/images/captura02.png)
+![](src/assets/images/captura03.png)
+
+## Installation
+
+*clone project
+
+-https://github.com/Marmota-hub/proyecto-reign.git
+
+-npm i
+
+-npm run start 
+
+or 
+
+-ng serve
+
+## Support
+
+bastianjorquera8@gmail.com
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
