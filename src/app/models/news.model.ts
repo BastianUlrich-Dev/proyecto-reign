@@ -3,6 +3,7 @@ export interface Post {
   story_title: string;
   story_url: string;
   created_at: string;
+  objectID: string;
 }
 
 export interface Params {
