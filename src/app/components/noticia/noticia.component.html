@@ -2,13 +2,13 @@
   <div class="card__content">
     <div class="card__autor">
       <img src="{{iconReloj}}" alt="">
-      <p>{{noticia.created_at}} {{noticia.author}}</p>
+      <p>{{noticia.created_at | date}} {{noticia.author}}</p>
     </div>
     <div class="card__news">
       <p>{{noticia.story_title }}</p>
     </div>
   </div>
-  <div class="card__icon">
-    <img src="{{iconLike}}" alt="">
+  <div (click)="activeImg()" class="card__icon">
+    <img src="{{iconoDisLike}}" [class.active]="imagenActiva" alt="">
   </div>
 </section>
