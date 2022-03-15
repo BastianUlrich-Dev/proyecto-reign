@@ -31,7 +31,8 @@
 .comboBox{
   width: 240px;
   height: 32px;
-  margin: 40px 0px 1px 0px;
+  margin-top: 53px;
+  justify-content: center;
   border-radius: 4px;
   border: solid 1px #2e2e2e;
   font-family: var(--font-roboto);
@@ -113,27 +114,14 @@
 // main card
 .main__cards{
   width: 100%;
-  margin: 20px 0px 30px 0px;
+  margin: 0px 5px 0px 5px;
+  padding: 0px 5px 0 5px;
 }
 
 .button__readMore{
   width: 100%;
   display: flex;
   justify-content: center;
-}
-
-.button_readMore .paginacion__opcion--readMore{
-  text-decoration: none;
-  width: 150px;
-  height: 32px;
-  border-radius: 4px;
-  background-color: #fff;
-  border: solid 1px #d9d9d9;
-  color: #767676;
-  font-family: var(--font-roboto);
-  font-weight: 300;
-  margin: 0 4px;
-  padding: 5px;
 }
 
 //paginacion
@@ -149,7 +137,7 @@
   display: flex;
   justify-content: center;
   text-decoration: none;
-  width: 32px;
+  width: 150px;
   height: 32px;
   border-radius: 4px;
   background-color: #fff;
@@ -165,24 +153,22 @@
   color: #fff;
 }
 
-
 @media (min-width: 720px){
-  .main{
-    display: block;
-    align-items: center;
-  }
-
-  .comboBox{
-    margin: 63px 114px 1px 150px;
-  }
-
   .main__cards{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
-    padding: 10px 150px 10px 150px;
+    margin-top: 15px;
+    margin-bottom: 25px;
+  }
+}
+@media (min-width: 1366px){
+  .container{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 410px;
   }
 }
 

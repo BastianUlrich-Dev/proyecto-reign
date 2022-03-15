@@ -1,46 +1,43 @@
 <main class="main">
   <section class="main__section">
-    <button class="section__button">All</button>
-    <button class="section__button">My faves</button>
+    <button class="section__button" (click)="showLikedPostsOnly$.next(false)">All</button>
+    <button class="section__button" (click)="showLikedPostsOnly$.next(true)">My faves</button>
   </section>
 
-  <div class="comboBox">
-    <form action="">
-      <div class="comboBox__selectbox">
-        <div class="comboBox__select" (click)="activarCbo()" [class.active]="opcionSeleccionada">
-          <div class="comboBox__contenido_select">
-            <p #selectNews class="comboBox__titulo">Select your news</p>
-          </div>
-          <fa-icon [icon]="chevronDown"></fa-icon>
-        </div>
-        <div class="opciones" [class.active]="cboActivo">
-          <a *ngFor="let item of options" href="#" class="opciones__seleccion">
-            <div (click)="activarCbo()" (click)="selectOption(item.text)" class="opciones__contenedor">
-              <img class="opciones__logo" [src]="item.logo" alt="">
-              <div class="opciones__textos">
-                <p>{{item.text}}</p>
-              </div>
+  <div class="container">
+    <div class="comboBox">
+      <form action="">
+        <div class="comboBox__selectbox">
+          <div class="comboBox__select" (click)="activarCbo()" [class.active]="opcionSeleccionada">
+            <div class="comboBox__contenido_select">
+              <p #selectNews class="comboBox__titulo">Select your news</p>
             </div>
-          </a>
+            <fa-icon [icon]="chevronDown"></fa-icon>
+          </div>
+          <div class="opciones" [class.active]="cboActivo">
+            <a *ngFor="let item of options" href="#" class="opciones__seleccion">
+              <div (click)="activarCbo()" (click)="selectOption(item.text)" class="opciones__contenedor">
+                <img class="opciones__logo" [src]="item.logo" alt="">
+                <div class="opciones__textos">
+                  <p>{{item.text}}</p>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
-      </div>
-      <input type="hidden" name="framework" id="inputSelect" value="">
-    </form>
+        <input type="hidden" name="framework" id="inputSelect" value="">
+      </form>
+    </div>
   </div>
 
+
   <section class="main__cards">
-    <app-noticia [noticia]="nota" *ngFor="let nota of news"></app-noticia>
+    <app-noticia [active]="nota.isFavorite" (toggleLike)="toggleLike(nota)" [noticia]="nota" *ngFor="let nota of news">
+    </app-noticia>
   </section>
 
-<div class="button__readMore">
-  <button class="paginacion__opcion--readMore" (click)="nextPage()">Read more</button>
-</div>
-
-  <section class="paginacion">
-    <a class="paginacion__opcion" href=""><fa-icon [icon]="chevronLeft"></fa-icon></a>
-    <a *ngFor="let pagina of paginas" class="paginacion__opcion" (click)="goToPage(pagina.numero)" href="#">{{pagina.numero}}</a>
-    <a class="paginacion__opcion" href="#"><fa-icon [icon]="chevronRight"></fa-icon></a>
-
-  </section>
+  <div class="paginacion">
+    <button class="paginacion__opcion" (click)="nextPage()">Read more</button>
+  </div>
 
 </main>

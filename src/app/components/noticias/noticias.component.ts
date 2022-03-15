@@ -1,6 +1,19 @@
-import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { faChevronDown, faChevronLeft, faChevronRight, faDog } from '@fortawesome/free-solid-svg-icons';
-import { BehaviorSubject, combineLatest, map, switchMap, tap, withLatestFrom } from 'rxjs';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  faChevronDown,
+  faChevronLeft,
+  faChevronRight,
+  faDog,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { Post } from 'src/app/models/news.model';
 import { NewsService } from 'src/app/services/news.service';
 
@@ -33,72 +46,78 @@ export class NoticiasComponent implements OnInit {
     },
   ];
 
-  paginas = [
-    {
-      numero: 1,
-    },
-    {
-      numero: 2,
-    },
-    {
-      numero: 3,
-    },
-    {
-      numero: 4,
-    },
-    {
-      numero: 5,
-    },
-    {
-      numero: 6,
-    },
-
-  ]
-
   params = new BehaviorSubject({ query: '', page: '0' });
 
   news: Post[] = [];
-
-
-
-  query$ = new BehaviorSubject(localStorage.getItem("query") ?? "");
-  page$ = new BehaviorSubject(localStorage.getItem("page") ?? "0");
-  likedPosts$ = new BehaviorSubject(JSON.parse(localStorage.getItem("likedPosts") ?? "[]"));
-
-  page = "0";
+  query$ = new BehaviorSubject(localStorage.getItem('query') || '');
+  page$ = new BehaviorSubject('0');
+  showLikedPostsOnly$ = new BehaviorSubject(true);
+  query = '';
+  page = '0';
+  likedPosts: Post[] = [];
   isLoading = false;
 
-  // query = new Subject("");
-  // isLoading = new BehaviorSubject(false);
+  likedPosts$ = new BehaviorSubject<Post[]>(
+    JSON.parse(localStorage.getItem('likedPosts') || '[]')
+  );
 
   constructor(private newsService: NewsService) {}
 
   ngOnInit() {
     combineLatest(
-      this.query$.pipe(tap((query) => localStorage.setItem("query", query))),
+      this.query$.pipe(
+        distinctUntilChanged(),
+        tap((query) => localStorage.setItem('query', query))
+      ),
       this.page$.pipe(
         tap((page) => {
           this.page = page;
-          localStorage.setItem("page", page);
         })
       ),
       this.likedPosts$.pipe(
-        tap((likedPosts) => localStorage.setItem("likedPosts", likedPosts))
+        tap((likedPosts) => {
+          this.likedPosts = likedPosts;
+          localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
+        })
+      ),
+      this.showLikedPostsOnly$
+    )
+      .pipe(
+        switchMap(([query, page, likedPosts, showLikedPostsOnly]) =>
+          this.newsService.getPosts({ query, page }).pipe(
+            map((posts) =>
+              posts.map((post) => ({
+                ...post,
+                isFavorite: !!this.isPostLiked(post, likedPosts),
+              }))
+            ),
+            map((posts) =>
+              this.query === query
+                ? [
+                    ...this.news,
+                    ...posts.filter(
+                      (post) =>
+                        !this.news.find(
+                          ({ objectID }) => objectID === post.objectID
+                        )
+                    ),
+                  ]
+                : posts
+            ),
+            tap(() => {
+              this.query = query;
+            }),
+            map((posts) => ({ posts, likedPosts, showLikedPostsOnly }))
+          )
+        )
       )
-    ).pipe(
-      switchMap(([query, page, likedPosts]) =>
-      this.newsService.getPosts({ query, page }).pipe(
-        map((posts) =>
-          [...this.news, ...posts.map((post) => ({
-            ...post,
-            isFavorite: likedPosts.includes(post.objectID),
-          }))]
-        ))
-      )
-      ).subscribe(news => {
-        this.news = news;
-      })
+      .subscribe(({ posts, likedPosts, showLikedPostsOnly }) => {
+        this.news = showLikedPostsOnly
+          ? likedPosts.map((post) => ({ ...post, isFavorite: true }))
+          : posts;
+      });
   }
+
   nextPage() {
     this.page$.next(String(Number(this.page) + 1));
     console.log(this.page$);
@@ -125,10 +144,23 @@ export class NoticiasComponent implements OnInit {
     this.opcionSeleccionada = !this.opcionSeleccionada;
   }
 
+  toggleLike(post: Post) {
+    if (this.isPostLiked(post)) {
+      // Deletes the post
+      this.likedPosts$.next(
+        this.likedPosts.filter(({ objectID }) => objectID !== post.objectID)
+      );
+    } else {
+      this.likedPosts$.next([...this.likedPosts, post]);
+    }
+  }
+
+  isPostLiked(post: Post, ref = this.likedPosts) {
+    return ref.find(({ objectID }) => objectID === post.objectID);
+  }
+
   activarCbo() {
     this.toggleButton();
     this.toggleCboActivo();
   }
-
-
 }
