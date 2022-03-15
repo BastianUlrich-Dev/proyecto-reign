@@ -4,6 +4,7 @@ export interface Post {
   story_url: string;
   created_at: string;
   objectID: string;
+  isFavorite?: boolean;
 }
 
 export interface Params {
